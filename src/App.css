@@ -1,3 +1,9 @@
 body {
     margin: 0;
 }
+
+/* I use this to remove underlive in Link tags  */
+a { 
+    text-decoration: none;
+  }
+  

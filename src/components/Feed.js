@@ -1,7 +1,16 @@
-import React from 'react'
+import { ExpandMore, Favorite, FavoriteBorder } from "@mui/icons-material";
+import React from "react";
+import { Box } from "@mui/system";
+import Post from "./Post";
 
-export const Feed = () => {
+const Feed = () => {
   return (
-    <div>Feed</div>
-  )
-}
+    <Box flex={6}>
+      <Post />
+      <Post />
+      <Post />
+    </Box>
+  );
+};
+
+export default Feed;

@@ -11,19 +11,19 @@ import {
   Menu,
   Divider,
   ListItemIcon,
+  Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
 // import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import logo from "../components/logo.png";
-import "./Navbar.css";
-import EmailIcon from "@mui/icons-material/Email";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import himentorsLogo from "../../assets/logos/himentorsLogo.png";
+import "./HomePageNavbar.css";
 import DeveloperModeIcon from "@mui/icons-material/DeveloperMode";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import { Link } from "react-router-dom";
 
-function Navbar() {
+const HomePageNavbar = () => {
   const [open, setOpen] = useState(false);
 
   const StyledToolbar = styled(Toolbar)({
@@ -38,22 +38,16 @@ function Navbar() {
     gap: 5,
   });
 
-  const Search = styled("div")({
-    backgroundColor: "white",
-    borderRadius: "5px",
-    padding: "5px 15px",
-    width: "40%",
-  });
-
   return (
     <AppBar position="sticky">
       <StyledToolbar>
         <Icons>
           <img
-            src={logo}
+            src={himentorsLogo}
             alt="himentors"
             width={150}
             style={{
+              cursor: "pointer",
               backgroundColor: "white ",
               borderRadius: 5,
               padding: 2,
@@ -62,22 +56,24 @@ function Navbar() {
           />
           <DeveloperModeIcon sx={{ display: { xs: "block", sm: "none" } }} />
         </Icons>
-        <Search>
-          <InputBase placeholder="search..." />
-        </Search>
+
         <Icons>
-          <Badge badgeContent={4} color="success">
-            <EmailIcon color="white" fontSize="large" />
-          </Badge>
-          <Badge badgeContent={2} color="success">
-            <NotificationsIcon color="white" fontSize="large" />
-          </Badge>
-          <Avatar
+          <Link to="/profile">
+            <Button variant="contained" color="error">
+              Sign In
+            </Button>
+          </Link>
+          <Link to="/profile">
+            <Button variant="contained" color="error">
+              Sign Up
+            </Button>
+          </Link>
+          {/* <Avatar
             sx={{ width: 33, height: 33 }}
             alt="User Profile"
             src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
             onClick={(e) => setOpen(!open)}
-          />
+          />           */}
         </Icons>
       </StyledToolbar>
       {/* Pop up user Menu  */}
@@ -111,8 +107,8 @@ function Navbar() {
             },
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "bottom" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "top" }}
       >
         <MenuItem>
           <Avatar /> Profile
@@ -142,6 +138,6 @@ function Navbar() {
       </Menu>
     </AppBar>
   );
-}
+};
 
-export default Navbar;
+export default HomePageNavbar;
