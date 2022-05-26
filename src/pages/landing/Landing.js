@@ -1,17 +1,17 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
-import { Footer } from "../../components/Footer/Footer";
-import HomePageNavbar from "../../components/HomePageNavbar/HomePageNavbar";
+import { Footer } from "../../components/footer/Footer";
+import {Navbar} from "../../components/landing/Navbar";
 import Rightbar from "../../components/Rightbar";
 import Sidebar from "../../components/Sidebar";
 import Feed from "../../components/Feed";
 import homepageLogo from "../../assets/logos/homepageLogo.png";
 
-export const HomePage = () => {
+export const Landing = () => {
   return (
     <React.Fragment>
       <Box>
-        <HomePageNavbar />
+        <Navbar />
         <Stack
           direction="row"
           justifyContent="center"

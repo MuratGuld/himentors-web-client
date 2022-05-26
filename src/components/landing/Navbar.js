@@ -16,14 +16,13 @@ import {
 import { Box } from "@mui/system";
 // import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import himentorsLogo from "../../assets/logos/himentorsLogo.png";
-import "./HomePageNavbar.css";
 import DeveloperModeIcon from "@mui/icons-material/DeveloperMode";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 
-const HomePageNavbar = () => {
+export const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   const StyledToolbar = styled(Toolbar)({
@@ -139,5 +138,3 @@ const HomePageNavbar = () => {
     </AppBar>
   );
 };
-
-export default HomePageNavbar;

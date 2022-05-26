@@ -1,8 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { HomePage } from "./pages/Homepage/HomePage";
-import { MentorPage } from "./pages/MentorPage/MentorPage";
+import { Admin } from "./pages/admin/Admin";
+import { GeneralView } from "./pages/general_view/GeneralView";
+import { GroupSettings } from "./pages/group_settings/GroupSettings";
+import { Landing } from "./pages/landing/Landing";
+import { Mentor } from "./pages/mentor/Mentor";
+import { UserSettings } from "./pages/user_settings/UserSettings";
+import { WeeklyView } from "./pages/weekly_view/WeeklyView";
 
 function App() {
   // Renk opsiyonlari
@@ -15,8 +20,13 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route path="/profile" element={<MentorPage />} />
+          <Route exact path="/" element={<Landing />} />
+          <Route path="/profile" element={<Mentor />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/profile/user_settings" element={<UserSettings />} />
+          <Route path="/profile/weekly_view" element={<WeeklyView />} />
+          <Route path="/profile/general_view" element={<GeneralView />} />
+          <Route path="/profile/group_settings" element={<GroupSettings />} />
         </Routes>
       </div>
     </Router>

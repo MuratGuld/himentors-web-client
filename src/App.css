@@ -1,9 +1,35 @@
 body {
-    margin: 0;
+  margin: 0;
 }
 
 /* I use this to remove underlive in Link tags  */
-a { 
-    text-decoration: none;
+a,
+a:hover,
+a:visited,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* navbar images reponsive */
+@media only screen and (max-width: 600px) {
+  img {
+    display: none;
   }
-  
+}
+
+/* mentor navbar user button */
+.user-button {
+  color: white;
+  background-color: #d32f2f;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 100%;
+  width: 40px;
+  height: 35px;
+  padding-top: 2px;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
