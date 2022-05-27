@@ -4,7 +4,7 @@ import React from "react";
 import { Footer } from "../../components/footer/Footer";
 import { MainCard } from "../../components/mentor/MainCard";
 import { Navbar } from "../../components/mentor/Navbar";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/mentor/Sidebar";
 
 const useStyles = makeStyles((theme) => ({
   flexStart: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    height: 453,
+    minHeight: 453,
   },
 }));
 

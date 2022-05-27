@@ -1,10 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import { Footer } from "../../components/footer/Footer";
-import {Navbar} from "../../components/landing/Navbar";
-import Rightbar from "../../components/Rightbar";
-import Sidebar from "../../components/Sidebar";
-import Feed from "../../components/Feed";
+import { Navbar } from "../../components/landing/Navbar";
 import homepageLogo from "../../assets/logos/homepageLogo.png";
 
 export const Landing = () => {
@@ -16,7 +13,7 @@ export const Landing = () => {
           direction="row"
           justifyContent="center"
           alignItems="center"
-          height={453}
+          minHeight={453}
         >
           <Box width={400}>
             <Typography variant="h4" mb={2}>

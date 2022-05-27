@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import useStyles from "./mentor_styles";
+import useStyles from "./admin_styles";
 
 export const PopupMenu = ({ open, setOpen }) => {
   const classes = useStyles();
@@ -35,7 +35,7 @@ export const PopupMenu = ({ open, setOpen }) => {
           Mert Demir
         </Typography>
         <Typography variant="subtitle2" pb={1}>
-          HiCoders Mentor
+          HiCoders Admin
         </Typography>
         <Typography variant="subtitle2" p={1}>
           mert.demir@hicoders.ch

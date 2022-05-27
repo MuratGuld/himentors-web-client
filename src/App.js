@@ -8,6 +8,8 @@ import { Landing } from "./pages/landing/Landing";
 import { Mentor } from "./pages/mentor/Mentor";
 import { UserSettings } from "./pages/user_settings/UserSettings";
 import { WeeklyView } from "./pages/weekly_view/WeeklyView";
+import { Groups } from "./pages/groups/Groups";
+import { Statistics } from "./pages/statistics/Statistics";
 
 function App() {
   // Renk opsiyonlari
@@ -27,6 +29,8 @@ function App() {
           <Route path="/profile/weekly_view" element={<WeeklyView />} />
           <Route path="/profile/general_view" element={<GeneralView />} />
           <Route path="/profile/group_settings" element={<GroupSettings />} />
+          <Route path="/admin/groups" element={<Groups />} />
+          <Route path="/admin/statistics" element={<Statistics />} />
         </Routes>
       </div>
     </Router>

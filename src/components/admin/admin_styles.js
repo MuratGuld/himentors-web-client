@@ -8,9 +8,6 @@ const useStyles = makeStyles((theme) => ({
   marginToButton: {
     marginTop: 2,
   },
-  widthToButton: {
-    width:150
-  },
   logoStyled: {
     width: 150,
     cursor: "pointer",
@@ -23,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-end",
   },
+  widthToButton: {
+    width: 150,
+  },
   cardHeaderStyled: {
     backgroundColor: "#b70202",
     color: "#ffffee",
@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
   subheader: {
     color: "#ffffee",
-    fontSize: "smaller",
     marginTop: 5,
   },
 }));

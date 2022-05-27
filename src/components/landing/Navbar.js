@@ -62,7 +62,7 @@ export const Navbar = () => {
               Sign In
             </Button>
           </Link>
-          <Link to="/profile">
+          <Link to="/admin">
             <Button variant="contained" color="error">
               Sign Up
             </Button>

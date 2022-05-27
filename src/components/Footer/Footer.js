@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/system";
+import { Box, lineHeight } from "@mui/system";
 import styled from "@emotion/styled";
 
 export const Footer = () => {
