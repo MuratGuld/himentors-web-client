@@ -7,9 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import useStyles from "./weeklytable_styles";
 import MessageIcon from "@mui/icons-material/Message";
 import RateReviewIcon from "@mui/icons-material/RateReview";
+import useStyles from "../../useStyles";
+import { Stack, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -90,62 +92,78 @@ export const WeeklyTable = () => {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell className={classes.fontWeight}>
-              Student
-            </StyledTableCell>
-            <StyledTableCell
-              align="center"
-              colSpan={2}
-              className={classes.fontWeight}
-            >
-              Assignment 1
-            </StyledTableCell>
-            <StyledTableCell
-              align="center"
-              colSpan={2}
-              className={classes.fontWeight}
-            >
-              Assignment 2
-            </StyledTableCell>
-            <StyledTableCell colSpan={2}></StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {students.map((student) => (
-            <StyledTableRow key={student.name}>
+    <Box>
+      <Stack
+        sx={{
+          bgcolor: "#b70202",
+          borderRadius: 1,
+          mb: 0.1,
+          pl: 1.5,
+          pt: 0.5,
+          minHeight: 40,
+        }}
+      >
+        <Typography variant="h6" color="white">
+          Weekly View
+        </Typography>
+      </Stack>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell className={classes.fontWeight}>
+                Student
+              </StyledTableCell>
               <StyledTableCell
-                component="th"
-                scope="row"
+                align="center"
+                colSpan={2}
                 className={classes.fontWeight}
               >
-                {student.first_name} {student.last_name}
+                Assignment 1
               </StyledTableCell>
-              <StyledTableCell align="center">
-                {student.first_assignment.sentStatus}
+              <StyledTableCell
+                align="center"
+                colSpan={2}
+                className={classes.fontWeight}
+              >
+                Assignment 2
               </StyledTableCell>
-              <StyledTableCell align="center">
-                {student.first_assignment.checkStatus}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {student.first_assignment.sentStatus}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {student.first_assignment.checkStatus}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                <RateReviewIcon className={classes.iconColoured} />
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                <MessageIcon className={classes.iconColoured} />
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+              <StyledTableCell colSpan={2}></StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {students.map((student) => (
+              <StyledTableRow key={student.name}>
+                <StyledTableCell
+                  component="th"
+                  scope="row"
+                  className={classes.fontWeight}
+                >
+                  {student.first_name} {student.last_name}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {student.first_assignment.sentStatus}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {student.first_assignment.checkStatus}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {student.first_assignment.sentStatus}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {student.first_assignment.checkStatus}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <RateReviewIcon className={classes.iconColoured} />
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <MessageIcon className={classes.iconColoured} />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
