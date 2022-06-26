@@ -1,22 +1,22 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from "react";
 
 export const GroupContext = createContext();
 
 const GroupContextProvider = (props) => {
-  const [groupListByModule, setGroupListByModule] = useState([]);
+  const [activeGroupList, setActiveGroupList] = useState([]);
 
   useEffect(() => {
-    getGroupList();
+    getActiveGroupList();
   }, []);
 
-  const getGroupList = async () => {
-    const response = await fetch('http://localhost:5000/groups/');
+  const getActiveGroupList = async () => {
+    const response = await fetch("http://localhost:5000/groups/active-groups");
     const groupList = await response.json();
-    setGroupListByModule(groupList);
+    setActiveGroupList(groupList);
   };
 
   return (
-    <GroupContext.Provider value={{ groupListByModule  }}>
+    <GroupContext.Provider value={{ activeGroupList }}>
       {props.children}
     </GroupContext.Provider>
   );

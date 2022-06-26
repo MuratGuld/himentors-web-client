@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,12 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import MessageIcon from "@mui/icons-material/Message";
-import RateReviewIcon from "@mui/icons-material/RateReview";
 import useStyles from "../../useStyles";
-import { Divider, Stack, Toolbar, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import Container from "@mui/material/Container";
+import * as gradeService from "../../service/grade.service";
+import * as studentService from "../../service/student.service";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -23,12 +20,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
 }));
-
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   backgroundColor: "white",
-  //   "&:nth-of-type(odd)": {
-  //     backgroundColor: theme.palette.action.hover,
-  //   },
   "&:hover": {
     backgroundColor: theme.palette.action.hover,
     cursor: "default",
@@ -39,347 +32,76 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export const GroupTables = ({ selectedGroup }) => {
+export const GroupTables = ({ selectedGroupId }) => {
   const classes = useStyles();
+  const [studentList, setStudentList] = useState([]);
+  const [gradesOfStudents, setGradesOfStudents] = useState([]);
 
-  if (selectedGroup == "Group 1") {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="customized table">
-          <TableHead>
-            {/* first thead row */}
-            <TableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Group 1
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 1
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 2
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 3
-              </StyledTableCell>
-            </TableRow>
-            {/* second thead row */}
-            <TableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Student
-              </StyledTableCell>
-              {/* Week 1 */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-              {/* Week 2 */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-              {/* Week 3  */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Ali Yilmaz
-              </StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-            </StyledTableRow>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Mehmet Can
-              </StyledTableCell>
-              <StyledTableCell align="center">85</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-            </StyledTableRow>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Asli Deniz
-              </StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-            </StyledTableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  } else if (selectedGroup == "Group 2") {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="customized table">
-          <TableHead>
-            {/* first thead row */}
-            <TableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Group 2
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 1
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 2
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 3
-              </StyledTableCell>
-            </TableRow>
-            {/* second thead row */}
-            <TableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Student
-              </StyledTableCell>
-              {/* Week 1 */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-              {/* Week 2 */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-              {/* Week 3  */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Murat Tan
-              </StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-            </StyledTableRow>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Esra Pek
-              </StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-            </StyledTableRow>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Tarik Dogru
-              </StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">60</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">50</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-            </StyledTableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  } else if (selectedGroup == "Group 3") {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="customized table">
-          <TableHead>
-            {/* first thead row */}
-            <TableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Group 3
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 1
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 2
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={5}>
-                Week 3
-              </StyledTableCell>
-            </TableRow>
-            {/* second thead row */}
-            <TableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Student
-              </StyledTableCell>
-              {/* Week 1 */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-              {/* Week 2 */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-              {/* Week 3  */}
-              <StyledTableCell align="center">Homework 1</StyledTableCell>
-              <StyledTableCell align="center">Homework 2</StyledTableCell>
-              <StyledTableCell align="center">Main Session</StyledTableCell>
-              <StyledTableCell align="center">Practice Session</StyledTableCell>
-              <StyledTableCell align="center">Mentor Session</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Fatih Toktas
-              </StyledTableCell>
-              <StyledTableCell align="center">50</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">60</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">85</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-            </StyledTableRow>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Ufuk Cihan
-              </StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">85</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">60</StyledTableCell>
-              <StyledTableCell align="center">95</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">75</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-            </StyledTableRow>
-            {/* student */}
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                Meryem Yildiz
-              </StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">70</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-              <StyledTableCell align="center">80</StyledTableCell>
-              <StyledTableCell align="center">60</StyledTableCell>
-              <StyledTableCell align="center">50</StyledTableCell>
-              <StyledTableCell align="center">0</StyledTableCell>
-              <StyledTableCell align="center">100</StyledTableCell>
-              <StyledTableCell align="center">90</StyledTableCell>
-            </StyledTableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }
+  useEffect(() => {
+    const getStudentsOfGroup = async (pGroupId) => {
+      const studentList = await studentService.getStudentsOfGroup(pGroupId);
+      setStudentList(studentList);
+
+      const GradesOfStudents = await Promise.all(
+        studentList.map(async (student) => {
+          return await gradeService.getGradesOfStudent(student.id);
+        })
+      );
+
+      setGradesOfStudents(GradesOfStudents);
+    };
+
+    getStudentsOfGroup(selectedGroupId);
+  }, [selectedGroupId]);
+
+  return (
+    <TableContainer component={Paper}>
+      <Table aria-label="customized table">
+        <TableHead>
+          {/* first thead row */}
+          <TableRow>
+            <StyledTableCell className={classes.fontWeight}>
+              General View
+            </StyledTableCell>
+            {gradesOfStudents[0] &&
+              gradesOfStudents[0].map((gradeInfo) => (
+                <StyledTableCell align="center">
+                  {gradeInfo.type}
+                </StyledTableCell>
+              ))}
+          </TableRow>
+          {/* second thead row */}
+          <TableRow>
+            <StyledTableCell className={classes.fontWeight}>
+              Student
+            </StyledTableCell>
+            {/* Columns */}
+            {gradesOfStudents[0] &&
+              gradesOfStudents[0].map((gradeInfo) => (
+                <StyledTableCell align="center">
+                  {gradeInfo.name}
+                </StyledTableCell>
+              ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {/* student */}
+          {studentList[0] &&
+            studentList.map((student, index) => (
+              <StyledTableRow>
+                <StyledTableCell className={classes.fontWeight}>
+                  {student.first_name} {student.last_name}
+                </StyledTableCell>
+                {/* grades */}
+                {gradesOfStudents[index]?.map((gradeInfo) => (
+                  <StyledTableCell align="center">
+                    {gradeInfo.grade}
+                  </StyledTableCell>
+                ))}
+              </StyledTableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 };

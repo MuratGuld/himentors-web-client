@@ -1,7 +1,8 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { GroupTables } from "../../components/groups/GroupTables";
+import { GroupContext } from "../../contexts/GroupContext";
 
 const useStyles = makeStyles((theme) => ({
   flexStart: {
@@ -13,12 +14,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const Groups = () => {
   const classes = useStyles();
-
-  const [selectedGroup, setSelectedGroup] = useState("Group 1");
+  const { activeGroupList } = useContext(GroupContext);
+  const [selectedGroupId, setSelectedGroupId] = useState(
+    activeGroupList[0] ? activeGroupList[0].id : []
+  );
 
   const handleChange = (e) => {
-    setSelectedGroup(e.target.value);
-    console.log(e.target.value);
+    setSelectedGroupId(e.target.value);
   };
   return (
     <React.Fragment>
@@ -28,17 +30,18 @@ export const Groups = () => {
           labelId="select-label"
           id="simple-select"
           label="Group"
-          value={selectedGroup}
+          value={selectedGroupId}
           onChange={handleChange}
         >
-          <MenuItem value="Group 1">Group 1</MenuItem>
-          <MenuItem value="Group 2">Group 2</MenuItem>
-          <MenuItem value="Group 3">Group 3</MenuItem>
+          {activeGroupList[0] &&
+            activeGroupList.map((group) => (
+              <MenuItem value={group.id}>{group.name}</MenuItem>
+            ))}
         </Select>
       </FormControl>
       <Box className={classes.flexStart}>
         {/* Group Tables */}
-        <GroupTables selectedGroup={selectedGroup} />
+        <GroupTables selectedGroupId={selectedGroupId} />
       </Box>
     </React.Fragment>
   );

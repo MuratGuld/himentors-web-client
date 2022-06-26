@@ -8,4 +8,10 @@ async function getStudentsOfMentor(pUser) {
   return await response.json();
 }
 
-export { getStudentsOfMentor };
+async function getStudentsOfGroup (pGroupId) {
+  const response = await fetch(`http://localhost:5000/students?groupId=${pGroupId}`);
+
+  return await response.json();
+}
+
+export { getStudentsOfMentor,getStudentsOfGroup };

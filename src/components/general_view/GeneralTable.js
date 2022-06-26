@@ -47,7 +47,7 @@ export const GeneralTable = () => {
   const [studentList, setStudentList] = useState([]);
   const [gradesOfStudents, setGradesOfStudents] = useState([]);
 
-  const { user, isAuthenticated } = useAuth0();
+  const { user } = useAuth0();
 
   useEffect(() => {
     const getStudentList = async (pUser) => {
@@ -75,9 +75,12 @@ export const GeneralTable = () => {
             <StyledTableCell className={classes.fontWeight}>
               General View
             </StyledTableCell>
-            {gradesOfStudents[0] && gradesOfStudents[0].map((gradeInfo) => (
-              <StyledTableCell align="center">{gradeInfo.type}</StyledTableCell>
-            ))}
+            {gradesOfStudents[0] &&
+              gradesOfStudents[0].map((gradeInfo) => (
+                <StyledTableCell align="center">
+                  {gradeInfo.type}
+                </StyledTableCell>
+              ))}
           </TableRow>
           {/* second thead row */}
           <TableRow>
@@ -85,26 +88,31 @@ export const GeneralTable = () => {
               Student
             </StyledTableCell>
             {/* Columns */}
-            {gradesOfStudents[0] && gradesOfStudents[0].map((gradeInfo) => (
-              <StyledTableCell align="center">{gradeInfo.name}</StyledTableCell>
-            ))}
+            {gradesOfStudents[0] &&
+              gradesOfStudents[0].map((gradeInfo) => (
+                <StyledTableCell align="center">
+                  {gradeInfo.name}
+                </StyledTableCell>
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {/* student */}
-          {studentList[0] && studentList.map((student, index) => (
-            <StyledTableRow>
-              <StyledTableCell className={classes.fontWeight}>
-                {student.first_name} {student.last_name}
-              </StyledTableCell>
-              {/* grades */}
-              {gradesOfStudents[0] && gradesOfStudents[index].map((gradeInfo) => (
-                <StyledTableCell align="center">
-                  {gradeInfo.grade}
+          {studentList[0] &&
+            studentList.map((student, index) => (
+              <StyledTableRow>
+                <StyledTableCell className={classes.fontWeight}>
+                  {student.first_name} {student.last_name}
                 </StyledTableCell>
-              ))}
-            </StyledTableRow>
-          ))}
+                {/* grades */}
+                {gradesOfStudents[0] &&
+                  gradesOfStudents[index].map((gradeInfo) => (
+                    <StyledTableCell align="center">
+                      {gradeInfo.grade}
+                    </StyledTableCell>
+                  ))}
+              </StyledTableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

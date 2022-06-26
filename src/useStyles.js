@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 2,
   },
   widthToButton: {
-    width: 150,
+    width: 170,
   },
   alignRight: {
     display: "flex",
