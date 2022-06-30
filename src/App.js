@@ -11,7 +11,8 @@ import { Landing } from "./views/landing/Landing";
 import { About } from "./views/about/About";
 import { Profile } from "./views/profile/Profile";
 import { WeeklyView } from "./views/weekly_view/WeeklyView";
-import { Groups } from "./views/groups/Groups";
+import { AdminGeneralView } from "./views/groups/AdminGeneralView";
+import { GroupSettings } from "./views/groups/GroupSettings";
 import { GeneralView } from "./views/general_view/GeneralView";
 import Home from "./views/home/Home";
 import "./App.css";
@@ -41,7 +42,8 @@ const App = () => {
             <Route path="/home/profile" element={<Profile />} />
             <Route path="/home/weekly_view" element={<WeeklyView />} />
             <Route path="/home/general_view" element={<GeneralView />} />
-            <Route path="/home/groups" element={<Groups />} />
+            <Route path="/home/groups" element={<AdminGeneralView />} />
+            <Route path="/home/groups_settings" element={<GroupSettings />} />
           </Routes>
         </Container>
         <Footer />

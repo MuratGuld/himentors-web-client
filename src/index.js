@@ -7,6 +7,9 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import history from "./utils/history";
 import { getConfig } from "./config";
 import GroupContextProvider from "./contexts/GroupContext";
+import MentorContextProvider from "./contexts/MentorContext";
+import StudentContextProvider from "./contexts/StudentContext";
+import ModuleContextProvider from "./contexts/ModuleContext";
 
 const onRedirectCallback = (appState) => {
   history.push(
@@ -28,9 +31,15 @@ const providerConfig = {
 
 ReactDOM.render(
   <Auth0Provider {...providerConfig}>
-    <GroupContextProvider>
-      <App />
-    </GroupContextProvider>
+    <ModuleContextProvider>
+      <StudentContextProvider>
+        <MentorContextProvider>
+          <GroupContextProvider>
+            <App />
+          </GroupContextProvider>
+        </MentorContextProvider>
+      </StudentContextProvider>
+    </ModuleContextProvider>
   </Auth0Provider>,
   document.getElementById("root")
 );

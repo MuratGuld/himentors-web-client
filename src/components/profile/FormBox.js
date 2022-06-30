@@ -31,8 +31,6 @@ export const FormBox = () => {
       <Typography>{user.family_name}</Typography>
       <Typography className={classes.typographyStyled}>Email</Typography>
       <Typography>{user.email}</Typography>
-      <Typography className={classes.typographyStyled}>Task</Typography>
-      <Typography>Mentor</Typography>
     </React.Fragment>
   );
 };

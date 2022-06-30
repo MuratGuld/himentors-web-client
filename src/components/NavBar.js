@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "@emotion/styled";
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Stack, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
 import himentorsLogo from "../assets/logos/himentorsLogo.png";
 import CodeIcon from "@mui/icons-material/Code";
@@ -12,6 +12,10 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useEffect } from "react";
 import * as userService from "../service/user.service";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import GroupsIcon from "@mui/icons-material/Groups";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -43,9 +47,18 @@ export const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const dropdownOpen = Boolean(anchorEl);
   const [role, setRole] = useState("");
-
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+  const handleDropdown = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleDropdownClose = () => {
+    setAnchorEl(null);
+  };
 
   const logoutWithRedirect = () =>
     logout({
@@ -121,11 +134,48 @@ export const NavBar = () => {
           )}
           {isAuthenticated && role == "admin" && (
             <>
-              <Link to="/home/groups">
-                <Button variant="contained" color="error" sx={{ ml: 0.5 }}>
-                  Groups
+              <Box sx={{ display: "inline" }}>
+                <Button
+                  id="basic-button"
+                  aria-controls={dropdownOpen ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={dropdownOpen ? "true" : undefined}
+                  onClick={handleDropdown}
+                  variant="contained"
+                  color="error"
+                  sx={{ ml: 0.5 }}
+                >
+                  GROUPS
                 </Button>
-              </Link>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={dropdownOpen}
+                  onClose={handleDropdownClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                  sx={{ color: "red" }}
+                >
+                  <Link to="/home/groups">
+                    <MenuItem
+                      onClick={handleDropdownClose}
+                      sx={{ color: "#d32f2f", paddingX: 1.4 }}
+                    >
+                      <GroupsIcon sx={{ marginRight: 1 }} />
+                      General View
+                    </MenuItem>
+                  </Link>
+                  <Link to="/home/groups_settings">
+                    <MenuItem
+                      onClick={handleDropdownClose}
+                      sx={{ color: "#d32f2f", paddingX: 1.4 }}
+                    >
+                      <SettingsIcon sx={{ marginRight: 1 }} /> Settings
+                    </MenuItem>
+                  </Link>
+                </Menu>
+              </Box>
               <Link to="/home">
                 <Button variant="contained" color="error" sx={{ ml: 0.5 }}>
                   Home

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Groups = () => {
+export const AdminGeneralView = () => {
   const classes = useStyles();
   const { activeGroupList } = useContext(GroupContext);
   const [selectedGroupId, setSelectedGroupId] = useState(
