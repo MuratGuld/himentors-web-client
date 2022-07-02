@@ -16,19 +16,24 @@ import {
   Divider,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import EditIcon from "@mui/icons-material/Edit";
+import Collapse from "@mui/material/Collapse";
+import GroupsIcon from "@mui/icons-material/Groups";
+import PersonIcon from "@mui/icons-material/Person";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GroupContext } from "../../contexts/GroupContext";
-import { StudentContext } from "../../contexts/StudentContext";
-import { MentorContext } from "../../contexts/MentorContext";
 import { ModuleContext } from "../../contexts/ModuleContext";
 import { Box } from "@mui/system";
+import { StudentCheckList } from "./StudentCheckList";
+import { MentorCheckList } from "./MentorCheckList";
+import * as studentService from "../../service/student.service";
+import * as mentorService from "../../service/mentor.service";
 
 export const GroupListBox = () => {
-  const { activeGroupList, addGroup } = useContext(GroupContext);
-  const { studentList } = useContext(StudentContext);
-  const { mentorList } = useContext(MentorContext);
+  const { activeGroupList, addGroup, deleteGroup } = useContext(GroupContext);
   const { activeModule } = useContext(ModuleContext);
+  const [studentList, setStudentList] = useState([]);
+  const [mentorList, setMentorList] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [group, setGroup] = useState({
     name: "",
@@ -36,6 +41,16 @@ export const GroupListBox = () => {
     MentorId: [],
     StudentId: [],
   });
+
+  const getStudentsOfGroup = async (pGroupId) => {
+    const studentList = await studentService.getStudentsOfGroup(pGroupId);
+    setStudentList(studentList);
+  };
+
+  const getMentorsOfGroup = async (pGroupId) => {
+    const mentorList = await mentorService.getMentorsOfGroup(pGroupId);
+    setMentorList(mentorList);
+  };
 
   async function getModule() {
     return await activeModule;
@@ -67,11 +82,10 @@ export const GroupListBox = () => {
     }
   };
 
-  // useEffect(() => {}, []);
-
   const handleCreateGroup = () => {
+    group.name = "Group 1";
     let groupName;
-    if (activeGroupList.length == 0) {
+    if (activeGroupList.length === 0) {
       groupName = "Group 1";
     } else {
       let groupNumbers = activeGroupList
@@ -95,8 +109,18 @@ export const GroupListBox = () => {
         group.ModuleId != ""
       ) {
         addGroup(group);
+        setGroup({
+          name: "",
+          ModuleId: "",
+          MentorId: [],
+          StudentId: [],
+        });
       }
     });
+  };
+
+  const handleDeleteGroup = (pGroupId) => {
+    deleteGroup(pGroupId);
   };
 
   const handleClickOpenPopup = () => {
@@ -105,6 +129,12 @@ export const GroupListBox = () => {
 
   const handleClosePopup = () => {
     setOpenPopup(false);
+    setGroup({
+      name: "",
+      ModuleId: "",
+      MentorId: [],
+      StudentId: [],
+    });
   };
 
   const [checked, setChecked] = React.useState([1]);
@@ -122,17 +152,73 @@ export const GroupListBox = () => {
     setChecked(newChecked);
   };
 
+  const [openGroup, setOpenGroup] = React.useState(false);
+
+  const handleGroupClick = (id) => () => {
+    setOpenGroup((openGroup) => ({
+      ...openGroup,
+      [id]: !openGroup[id],
+    }));
+    getStudentsOfGroup(id);
+    getMentorsOfGroup(id);
+  };
+
   return (
     <React.Fragment>
       <List>
-        {activeGroupList?.map((group) => (
-          <ListItem>
-            <ListItemText primary={group.name} />
-            <ListItemIcon>
-              <DeleteIcon sx={{ color: "#d32f2f", cursor: "pointer" }} />
-            </ListItemIcon>
-          </ListItem>
-        ))}
+        {activeGroupList
+          ?.sort(function (a, b) {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          })
+          .map((group) => (
+            <Box>
+              <ListItem>
+                {/* group */}
+                <ListItemButton onClick={handleGroupClick(group.id)}>
+                  <ListItemIcon>
+                    <GroupsIcon sx={{ color: "#d32f2f" }} />
+                  </ListItemIcon>
+                  <ListItemText primary={group.name} />
+                </ListItemButton>
+                {/* delete icon */}
+                <ListItemIcon onClick={() => handleDeleteGroup(group.id)}>
+                  <DeleteIcon sx={{ color: "#d32f2f", cursor: "pointer" }} />
+                </ListItemIcon>
+              </ListItem>
+              <Collapse in={openGroup[group.id]} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {/* ******************** */}
+                  {mentorList?.map((mentor) => (
+                    <ListItemButton sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <PersonIcon sx={{ color: "#d32f2f" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={`${mentor.first_name} ${mentor.last_name}`}
+                      />
+                    </ListItemButton>
+                  ))}
+                  {/* ******************** */}
+                  {studentList?.map((student) => (
+                    <ListItemButton sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <PersonOutlineIcon sx={{ color: "#d32f2f" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={`${student.first_name} ${student.last_name}`}
+                      />
+                    </ListItemButton>
+                  ))}
+                </List>
+              </Collapse>
+            </Box>
+          ))}
         <Button
           Button
           variant="contained"
@@ -152,101 +238,19 @@ export const GroupListBox = () => {
           <DialogTitle id="alert-dialog-title">Create Group</DialogTitle>
           <Divider />
           <Box sx={{ display: "flex" }}>
-            {/* Mentor List */}
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 Select Mentor
               </DialogContentText>
-              <List
-                dense
-                sx={{
-                  width: 200,
-                  maxHeight: 320,
-                  bgcolor: "background.paper",
-                  border: "1px solid gray",
-                  overflowX: "scroll",
-                }}
-              >
-                {mentorList?.map((value) => {
-                  const labelId = `checkbox-list-secondary-label-${value.id}`;
-                  return (
-                    <ListItem
-                      key={value.id}
-                      secondaryAction={
-                        <Checkbox
-                          edge="end"
-                          onChange={(e) => {
-                            if (
-                              e.target.checked &&
-                              !group.MentorId.includes(value.id)
-                            ) {
-                              group.MentorId.push(value.id);
-                            }
-                          }}
-                          inputProps={{ "aria-labelledby": labelId }}
-                          color="error"
-                        />
-                      }
-                      disablePadding
-                    >
-                      <ListItemButton>
-                        <ListItemText
-                          id={labelId}
-                          primary={`${value.first_name} ${value.last_name}`}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })}
-              </List>
+              {/* mentor checklist component */}
+              <MentorCheckList group={group} />
             </DialogContent>
-            {/* Student List */}
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 Select Student
               </DialogContentText>
-              <List
-                dense
-                sx={{
-                  width: 200,
-                  maxHeight: 320,
-                  bgcolor: "background.paper",
-                  border: "1px solid gray",
-                  overflowX: "scroll",
-                }}
-              >
-                {studentList?.map((value) => {
-                  const labelId = `checkbox-list-secondary-label2-${value.id}`;
-                  return (
-                    <ListItem
-                      key={value.id}
-                      secondaryAction={
-                        <Checkbox
-                          edge="end"
-                          onChange={(e) => {
-                            if (
-                              e.target.checked &&
-                              !group.StudentId.includes(value.id)
-                            ) {
-                              group.StudentId.push(value.id);
-                            }
-                          }}
-                          inputProps={{ "aria-labelledby": labelId }}
-                          color="error"
-                        />
-                      }
-                      disablePadding
-                    >
-                      <ListItemButton>
-                        <ListItemText
-                          id={labelId}
-                          primary={`${value.first_name} ${value.last_name}`}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })}
-              </List>
+              {/* student checklist component */}
+              <StudentCheckList group={group} />
             </DialogContent>
           </Box>
           <DialogActions>

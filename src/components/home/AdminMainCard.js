@@ -8,12 +8,19 @@ import useStyles from "../../useStyles";
 import CardHeader from "@mui/material/CardHeader";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
+import { useContext } from "react";
+import { GroupContext } from "../../contexts/GroupContext";
+import { MentorContext } from "../../contexts/MentorContext";
+import { StudentContext } from "../../contexts/StudentContext";
 
 export const AdminMainCard = () => {
   const classes = useStyles();
+  const { activeGroupList } = useContext(GroupContext);
+  const { allMentorList } = useContext(MentorContext);
+  const { allStudentList } = useContext(StudentContext);
 
   return (
-    <Card sx={{ maxWidth: 400}}>
+    <Card sx={{ maxWidth: 400 }}>
       <CardHeader
         title="Fullstack Web Developing Course"
         subheader="Javascript Module"
@@ -32,19 +39,13 @@ export const AdminMainCard = () => {
         <Divider />
         <Typography variant="body2" color="text.secondary"></Typography>
         <Typography variant="body2" color="text.secondary">
-          Number of Students : 32
+          Number of Students : {allStudentList?.length}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Number of Mentors : 12
+          Number of Mentors : {allMentorList?.length}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Number of Groups : 12
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Current Week : Week 3
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Module Duration : 6 Weeks
+          Number of Groups : {activeGroupList?.length}
         </Typography>
       </CardContent>
       <CardActions className={classes.alignRight}>

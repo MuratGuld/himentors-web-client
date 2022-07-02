@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import MessageIcon from "@mui/icons-material/Message";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import useStyles from "../../useStyles";
 import { Divider, Stack, Toolbar, Typography } from "@mui/material";
@@ -16,6 +15,7 @@ import Container from "@mui/material/Container";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import * as studentService from "../../service/student.service";
+import * as mentorService from "../../service/mentor.service";
 import * as gradeService from "../../service/grade.service";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -81,6 +81,7 @@ export const GeneralTable = () => {
                   {gradeInfo.type}
                 </StyledTableCell>
               ))}
+            {/* <StyledTableCell></StyledTableCell> */}
           </TableRow>
           {/* second thead row */}
           <TableRow>
@@ -94,6 +95,7 @@ export const GeneralTable = () => {
                   {gradeInfo.name}
                 </StyledTableCell>
               ))}
+            {/* <StyledTableCell></StyledTableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -108,9 +110,16 @@ export const GeneralTable = () => {
                 {gradesOfStudents[0] &&
                   gradesOfStudents[index].map((gradeInfo) => (
                     <StyledTableCell align="center">
-                      {gradeInfo.grade}
+                      {gradeInfo.grade != null
+                        ? Math.round(gradeInfo.grade)
+                        : ""}
                     </StyledTableCell>
                   ))}
+                {/* <StyledTableCell>
+                  <RateReviewIcon
+                    sx={{ cursor: "pointer", color: "#b70202" }}
+                  />
+                </StyledTableCell> */}
               </StyledTableRow>
             ))}
         </TableBody>

@@ -7,15 +7,16 @@ import useStyles from "../../useStyles";
 import CardHeader from "@mui/material/CardHeader";
 import { SummaryTable } from "./SummaryTable";
 import { Link } from "react-router-dom";
+import { ModuleContext } from "../../contexts/ModuleContext";
 
 export const MainCard = () => {
   const classes = useStyles();
+  const { activeModule } = React.useContext(ModuleContext);
 
   return (
-    <Card sx={{ minWidth: 500 }}>
+    <Card sx={{ minWidth: 400 }}>
       <CardHeader
-        title="Javascript Module"
-        subheader="Fullstack Web Developing Course"
+        title={`${activeModule.name} Module`}
         classes={{ subheader: classes.subheader }}
         className={classes.cardHeaderStyled}
       />
@@ -24,9 +25,9 @@ export const MainCard = () => {
         <SummaryTable />
       </CardContent>
       <CardActions className={classes.alignRight}>
-        <Link to="/home/weekly_view">
+        <Link to="/home/general_view">
           <Button variant="contained" size="small" color="error" fullWidth>
-            Go to Weekly View
+            Go to General View
           </Button>
         </Link>
       </CardActions>

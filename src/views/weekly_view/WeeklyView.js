@@ -6,11 +6,11 @@ import { WeeklyTable } from "../../components/weekly_view/WeeklyTable";
 const useStyles = makeStyles((theme) => ({
   flexStart: {
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     minHeight: 453,
-    maxWidth:800,
-    marginLeft:100
+    maxWidth: 800,
+    marginLeft: 100,
   },
 }));
 
@@ -18,8 +18,8 @@ export const WeeklyView = () => {
   const classes = useStyles();
 
   return (
-        <Box className={classes.flexStart}>
-            <WeeklyTable />
-        </Box>
+    <Box className={classes.flexStart}>
+      <WeeklyTable />
+    </Box>
   );
 };

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,36 +6,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { fontWeight } from "@mui/system";
 import Typography from "@mui/material/Typography";
+import { useAuth0 } from "@auth0/auth0-react";
+import * as studentService from "../../service/student.service";
+import * as homeworkService from "../../service/homework.service";
 
 export const SummaryTable = () => {
-  const studentList = [
-    {
-      first_name: "Ali",
-      last_name: "Yilmaz",
-      sendStatus: "not sent",
-      checkStatus: "not checked",
-    },
-    {
-      first_name: "Mehmet",
-      last_name: "Can",
-      sendStatus: "sent late",
-      checkStatus: "checked",
-    },
-    {
-      first_name: "Asli",
-      last_name: "Deniz",
-      sendStatus: "sent on time",
-      checkStatus: "checked",
-    },
-    {
-      first_name: "Ugur",
-      last_name: "Celik",
-      sendStatus: "sent on time",
-      checkStatus: "checked",
-    },
-  ];
+  const [studentList, setStudentList] = useState([]);
+  const [homeworkList, setHomeworkList] = useState([]);
+  const { user } = useAuth0();
+
+  useEffect(() => {
+    const getStudentsByMentorEmail = async (pUser) => {
+      const studentList = await studentService.getStudentsOfMentor(pUser);
+      setStudentList(studentList);
+    };
+
+    const getHomeworkList = async () => {
+      const homeworks = await homeworkService.getHomeworkList();
+      setHomeworkList(homeworks);
+    };
+    getHomeworkList();
+    getStudentsByMentorEmail(user);
+  }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -44,19 +37,22 @@ export const SummaryTable = () => {
           <TableRow>
             <TableCell>
               <Typography variant="body1" fontWeight="bolder">
-                Group 1
+                Student
               </Typography>
             </TableCell>
-            <TableCell
-              colSpan={2}
-              sx={{ textAlign: "right", fontWeight: "bolder" }}
-            >
-              Assignment (Week 3)
-            </TableCell>
+            {/* ASSIGNMENTS */}
+            {homeworkList
+              ?.map((homework) => homework.name)
+              .filter((item, index, self) => self.indexOf(item) === index)
+              .map((name) => (
+                <TableCell sx={{ textAlign: "center", fontWeight: "bolder" }}>
+                  {name}
+                </TableCell>
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {studentList.map((student, index) => (
+          {studentList?.map((student, index) => (
             <TableRow
               key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -64,8 +60,22 @@ export const SummaryTable = () => {
               <TableCell component="th" scope="row">
                 {student.first_name} {student.last_name}
               </TableCell>
-              <TableCell align="right">{student.sendStatus}</TableCell>
-              <TableCell align="right">{student.checkStatus}</TableCell>
+              {/* STATUS */}
+              {homeworkList
+                .filter((homework) => homework.StudentId == student.id)
+                .map((homework) => (
+                  <TableCell sx={{ textAlign: "center", fontWeight: "bolder" }}>
+                    {homework.status == "CREATED" ? (
+                      <i style={{ color: "red" }}>Assigned</i>
+                    ) : null}
+                    {homework.status == "TURNED_IN" ? (
+                      <i style={{ color: "orange" }}>Submitted</i>
+                    ) : null}
+                    {homework.status == "RETURNED" ? (
+                      <i style={{ color: "green" }}>Checked</i>
+                    ) : null}
+                  </TableCell>
+                ))}
             </TableRow>
           ))}
         </TableBody>

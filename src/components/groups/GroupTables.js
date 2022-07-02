@@ -10,6 +10,8 @@ import Paper from "@mui/material/Paper";
 import useStyles from "../../useStyles";
 import * as gradeService from "../../service/grade.service";
 import * as studentService from "../../service/student.service";
+import Typography from "@mui/material/Typography";
+import { Stack } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -95,7 +97,7 @@ export const GroupTables = ({ selectedGroupId }) => {
                 {/* grades */}
                 {gradesOfStudents[index]?.map((gradeInfo) => (
                   <StyledTableCell align="center">
-                    {gradeInfo.grade}
+                    {gradeInfo.grade != null ? Math.round(gradeInfo.grade) : ""}
                   </StyledTableCell>
                 ))}
               </StyledTableRow>
